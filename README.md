@@ -25,10 +25,10 @@ re-uses the request your client would have sent.
 
 1. Open **Extensions → Install extension**.
 2. Paste the repository URL:
-   `https://github.com/JuliusNarvasa/detached-gen`
+   `https://github.com/JuliusNarvasa/sillytavern-detached-generation`
 3. Click **Install for all users** (admins) or **Install just for me**.
 
-> The repository name must stay `detached-gen`: SillyTavern derives the extension folder
+> The repository name must stay `sillytavern-detached-generation`: SillyTavern derives the extension folder
 > name from the repository name.
 
 ### 2. Server half — one command
@@ -49,10 +49,10 @@ This copies the plugin to `plugins/detached/`, sets `enableServerPlugins: true` 
 
 ```bash
 cd /path/to/SillyTavern
-node plugins.js install https://github.com/JuliusNarvasa/detached-gen
+node plugins.js install https://github.com/JuliusNarvasa/sillytavern-detached-generation
 ```
 
-This clones the repository into `plugins/detached-gen/`; the plugin loader picks up
+This clones the repository into `plugins/sillytavern-detached-generation/`; the plugin loader picks up
 `server-plugin/index.js` through the repository's `package.json`. Remember to set
 `enableServerPlugins: true` and restart.
 </details>
@@ -119,8 +119,15 @@ after 24 hours.
 
 ## Requirements & limits
 
-- SillyTavern **1.19.0 or newer** (the plugin uses the server-plugin API added in 1.19).
-- `enableServerPlugins: true` and a server restart.
+| Requirement | Since |
+|---|---|
+| SillyTavern server-plugin API (`init(router)`, `/api/plugins/<id>`) | **1.11.1** (Dec 2023) |
+| `node plugins.js install <url>` shortcut for the server half | **1.12.0** (May 2024) — on older versions copy `server-plugin/` manually |
+| `setOnlineStatus` export (used to bypass a "backend disconnected" guard during reattach) | **1.13.0** — on older versions the extension still loads, but that one guard cannot be bypassed |
+
+Developed and tested against **SillyTavern 1.19.0** (commit `7e8663cd9`). The server-plugin
+API is nothing new — it has existed since December 2023; this extension just uses it well.
+
 - **Prompt assembly still happens in the browser.** You can close the tab *after* sending
   the prompt, not before. Macros, lorebooks and presets are client-side code.
 - Multi-step tool-call loops need a live client between the steps.

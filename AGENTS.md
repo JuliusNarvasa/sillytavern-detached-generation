@@ -9,8 +9,8 @@ Two halves of one feature:
 
 | Half | What it is | Where it goes |
 |---|---|---|
-| Browser half | SillyTavern UI extension (this repo's root: `manifest.json`, `extension.js`, `style.css`) | `<ST>/data/<user>/extensions/detached-gen/` (per user) or `<ST>/public/scripts/extensions/third-party/detached-gen/` (global) |
-| Server half | SillyTavern server plugin (`server-plugin/`) | `<ST>/plugins/detached/` or `<ST>/plugins/detached-gen/` |
+| Browser half | SillyTavern UI extension (this repo's root: `manifest.json`, `extension.js`, `style.css`) | `<ST>/data/<user>/extensions/sillytavern-detached-generation/` (per user) or `<ST>/public/scripts/extensions/third-party/sillytavern-detached-generation/` (global) |
+| Server half | SillyTavern server plugin (`server-plugin/`) | `<ST>/plugins/detached/` or `<ST>/plugins/sillytavern-detached-generation/` |
 
 Both are required. The browser half alone does nothing useful (it falls back to normal
 browser-side generation); the server half alone is invisible to the user.
@@ -22,10 +22,15 @@ browser-side generation); the server half alone is invisible to the user.
 
 ## Prerequisites
 
-- SillyTavern **1.19.0+** (server plugins were added in 1.19). Check
-  `<ST>/package.json` → `version`.
+- SillyTavern **1.13.0 or newer** for the full feature. The individual pieces:
+  - server-plugin API (`init(router)`, `/api/plugins/<id>`): **1.11.1** (Dec 2023)
+  - `node plugins.js install <url>`: **1.12.0** (May 2024); on older versions copy
+    `server-plugin/` into `<ST>/plugins/` manually
+  - `setOnlineStatus` export: **1.13.0** (used only to bypass a "backend disconnected"
+    guard during reattach; the extension loads without it)
 - Write access to `<ST>/plugins/`, `<ST>/config.yaml` and the ST data directory.
 - Node.js as used by the ST instance.
+- Tested against SillyTavern 1.19.0 (commit `7e8663cd9`).
 
 ## Step 1 — locate the SillyTavern installation
 
@@ -56,7 +61,7 @@ or let SillyTavern clone the repository for you (the repository's `package.json`
 
 ```bash
 cd <ST>
-node plugins.js install https://github.com/JuliusNarvasa/detached-gen
+node plugins.js install https://github.com/JuliusNarvasa/sillytavern-detached-generation
 ```
 
 (If `plugins/detached` already exists, back it up first: `mv plugins/detached plugins/detached.bak`.)
@@ -115,7 +120,7 @@ Preferred (through the UI, no file copying): the user opens
 **Extensions → Install extension** and pastes the repository URL:
 
 ```
-https://github.com/JuliusNarvasa/detached-gen
+https://github.com/JuliusNarvasa/sillytavern-detached-generation
 ```
 
 then clicks **Install for all users** (admins) or **Install just for me**.
@@ -123,12 +128,12 @@ then clicks **Install for all users** (admins) or **Install just for me**.
 Automated alternative (this is exactly what ST's installer does):
 
 ```bash
-git clone --depth 1 https://github.com/JuliusNarvasa/detached-gen <ST>/data/<user>/extensions/detached-gen
+git clone --depth 1 https://github.com/JuliusNarvasa/sillytavern-detached-generation <ST>/data/<user>/extensions/sillytavern-detached-generation
 ```
 
 Rules:
 
-- The target directory name **must be `detached-gen`** (ST derives it from the repo name).
+- The target directory name **must be `sillytavern-detached-generation`** (ST derives it from the repo name).
 - `manifest.json` **must be in the repository root** (ST's installer deletes the clone
   otherwise).
 
@@ -161,14 +166,14 @@ cat <ST>/data/detached-jobs/<user>/<jobId>/job.json   # {"state":"done", ...}
 |---|---|
 | `Failed to load plugin ... SyntaxError: Cannot use import statement outside a module` | `server-plugin/package.json` with `{"type":"module"}` is missing in the deployed copy |
 | Plugin not listed in the log | `enableServerPlugins: true` missing, or the server was not restarted |
-| `Directory already exists` when installing | Delete/rename `<ST>/data/<user>/extensions/detached-gen` first |
-| Extension invisible in the UI | `manifest.json` is not in the repo root, or the folder name is not `detached-gen` |
+| `Directory already exists` when installing | Delete/rename `<ST>/data/<user>/extensions/sillytavern-detached-generation` first |
+| Extension invisible in the UI | `manifest.json` is not in the repo root, or the folder name is not `sillytavern-detached-generation` |
 | Generation still dies with the tab | Detached mode not enabled for that user, or the browser half is not loaded (check `window.fetch` is patched) |
 
 ## Do not
 
 - Do not modify SillyTavern core files. The feature works without touching them.
 - Do not remove the `server-plugin/` folder from the repository — it is the server half.
-- Do not change the repository name: the folder name (`detached-gen`) and the SW/asset
+- Do not change the repository name: the folder name (`sillytavern-detached-generation`) and the SW/asset
   paths depend on it.
 

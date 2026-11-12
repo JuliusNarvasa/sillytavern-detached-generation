@@ -23,9 +23,16 @@ import {
     saveReply,
     saveChatConditional,
     saveSettingsDebounced,
-    setOnlineStatus,
     Generate,
 } from '../../../../script.js';
+// Namespace import for optional APIs: setOnlineStatus is only exported from
+// SillyTavern 1.13.0. On older versions the reattach still works, but the
+// "backend disconnected" guard of Generate() cannot be bypassed.
+import * as scriptModule from '../../../../script.js';
+
+const setOnlineStatus = scriptModule.setOnlineStatus ?? ((value) => {
+    console.warn('[DetachedGen] setOnlineStatus is unavailable in this SillyTavern version.');
+});
 
 const PLUGIN_BASE = '/api/plugins/detached';
 const GENERATE_RE = /^\/api\/backends\/[a-z-]+\/generate$/;

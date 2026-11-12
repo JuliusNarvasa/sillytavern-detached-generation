@@ -1,5 +1,5 @@
 {
-    "name": "detached-gen",
+    "name": "sillytavern-detached-generation",
     "version": "0.1.0",
     "description": "Detached generation for SillyTavern - server-side generation jobs so the browser can be closed mid-generation. The browser half of the extension is the repository root (manifest.json/extension.js); the server half is server-plugin/.",
     "type": "module",
@@ -13,7 +13,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/JuliusNarvasa/detached-gen.git"
+        "url": "https://github.com/JuliusNarvasa/sillytavern-detached-generation.git"
     }
 }
 

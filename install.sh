@@ -11,7 +11,7 @@
 #
 # The browser half of the extension is installed separately, either through
 # SillyTavern's UI (Extensions -> Install extension -> this repo's URL) or by
-# copying the files in this repository into <ST>/data/<user>/extensions/detached-gen.
+# copying the files in this repository into <ST>/data/<user>/extensions/sillytavern-detached-generation.
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -53,7 +53,7 @@ if [[ -f "$CONFIG" ]]; then
         sed -i -E 's/^enableServerPlugins:[[:space:]]*false/enableServerPlugins: true/' "$CONFIG"
         if ! grep -qE '^enableServerPlugins:[[:space:]]*true' "$CONFIG"; then
             # key not present at all -> append it
-            printf '\n# Added by detached-gen installer\nenableServerPlugins: true\n' >> "$CONFIG"
+            printf '\n# Added by sillytavern-detached-generation installer\nenableServerPlugins: true\n' >> "$CONFIG"
         fi
         echo "==> set enableServerPlugins: true (backup: $CONFIG.bak-detached-gen)"
     fi
@@ -67,7 +67,7 @@ cat <<'EOF'
     1. restart SillyTavern (server plugins are only loaded at boot):
          cd <ST_DIR> && npm start          # or: systemctl restart st.service
     2. install the browser half:
-         Extensions -> Install extension -> https://github.com/JuliusNarvasa/detached-gen
+         Extensions -> Install extension -> https://github.com/JuliusNarvasa/sillytavern-detached-generation
        (or "Install for all users" if you are an admin)
     3. open Extensions -> Detached Generation -> enable "Detached mode"
     4. verify: the server log should print "1 server plugin(s) are currently loaded"
