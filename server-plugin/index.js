@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { JobStore } from './jobStore.js';
 import { JobRunner } from './runner.js';
 
@@ -27,7 +27,7 @@ const serverRoot = findServerRoot(path.dirname(fileURLToPath(import.meta.url)));
 if (!serverRoot) {
     throw new Error('Could not locate the SillyTavern installation (no server.js found above the plugin).');
 }
-const { getConfigValue } = await import(path.join(serverRoot, 'src', 'util.js'));
+const { getConfigValue } = await import(pathToFileURL(path.join(serverRoot, 'src', 'util.js')).href);
 
 export const info = {
     id: 'detached',
