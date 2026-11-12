@@ -1,7 +1,7 @@
 {
     "name": "detached-gen",
     "version": "0.1.0",
-    "description": "Detached generation for SillyTavern - server-side generation jobs so the browser can be closed mid-generation. The browser half of the extension is the repository root (manifest.json/index.js); the server half is server-plugin/.",
+    "description": "Detached generation for SillyTavern - server-side generation jobs so the browser can be closed mid-generation. The browser half of the extension is the repository root (manifest.json/extension.js); the server half is server-plugin/.",
     "type": "module",
     "main": "server-plugin/index.js",
     "license": "MIT",
@@ -16,3 +16,4 @@
         "url": "https://github.com/JuliusNarvasa/detached-gen.git"
     }
 }
+

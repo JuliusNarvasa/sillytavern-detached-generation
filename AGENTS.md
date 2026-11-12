@@ -9,11 +9,16 @@ Two halves of one feature:
 
 | Half | What it is | Where it goes |
 |---|---|---|
-| Browser half | SillyTavern UI extension (this repo's root: `manifest.json`, `index.js`, `style.css`) | `<ST>/data/<user>/extensions/detached-gen/` (per user) or `<ST>/public/scripts/extensions/third-party/detached-gen/` (global) |
-| Server half | SillyTavern server plugin (`server-plugin/`) | `<ST>/plugins/detached/` |
+| Browser half | SillyTavern UI extension (this repo's root: `manifest.json`, `extension.js`, `style.css`) | `<ST>/data/<user>/extensions/detached-gen/` (per user) or `<ST>/public/scripts/extensions/third-party/detached-gen/` (global) |
+| Server half | SillyTavern server plugin (`server-plugin/`) | `<ST>/plugins/detached/` or `<ST>/plugins/detached-gen/` |
 
 Both are required. The browser half alone does nothing useful (it falls back to normal
 browser-side generation); the server half alone is invisible to the user.
+
+> The browser entry file is named `extension.js`, **not** `index.js`: the server-plugin
+> loader scans a plugin directory for `index.js`, and the repository root is also the
+> browser extension. Keeping the names apart stops the loader from importing the browser
+> bundle as a server plugin.
 
 ## Prerequisites
 
@@ -39,9 +44,19 @@ the container (or bind-mount `plugins/` and the data dir).
 
 ## Step 2 — install the server plugin
 
+Either copy it:
+
 ```bash
 cd <ST>
 cp -r <repo>/server-plugin plugins/detached
+```
+
+or let SillyTavern clone the repository for you (the repository's `package.json` points
+`main` at `server-plugin/index.js`, so the plugin loader finds it):
+
+```bash
+cd <ST>
+node plugins.js install https://github.com/JuliusNarvasa/detached-gen
 ```
 
 (If `plugins/detached` already exists, back it up first: `mv plugins/detached plugins/detached.bak`.)
@@ -156,3 +171,4 @@ cat <ST>/data/detached-jobs/<user>/<jobId>/job.json   # {"state":"done", ...}
 - Do not remove the `server-plugin/` folder from the repository — it is the server half.
 - Do not change the repository name: the folder name (`detached-gen`) and the SW/asset
   paths depend on it.
+

@@ -45,6 +45,19 @@ This copies the plugin to `plugins/detached/`, sets `enableServerPlugins: true` 
 `config.yaml` (keeping a backup) and prints the restart command.
 
 <details>
+<summary>Alternative: install it with SillyTavern's own plugin installer</summary>
+
+```bash
+cd /path/to/SillyTavern
+node plugins.js install https://github.com/JuliusNarvasa/detached-gen
+```
+
+This clones the repository into `plugins/detached-gen/`; the plugin loader picks up
+`server-plugin/index.js` through the repository's `package.json`. Remember to set
+`enableServerPlugins: true` and restart.
+</details>
+
+<details>
 <summary>Manual equivalent</summary>
 
 ```bash
@@ -135,3 +148,4 @@ Anyone who can talk to the SillyTavern server can already use its API.
 MIT — see [LICENSE](LICENSE).
 
 Not affiliated with SillyTavern. Tested against SillyTavern 1.19.0 (commit `7e8663cd9`).
+
