@@ -1,0 +1,11 @@
+{
+    "display_name": "Detached Generation",
+    "loading_order": 100,
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "Bambaw",
+    "version": "0.1.0",
+    "homePage": ""
+}
