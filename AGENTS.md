@@ -22,15 +22,10 @@ browser-side generation); the server half alone is invisible to the user.
 
 ## Prerequisites
 
-- SillyTavern **1.13.0 or newer** for the full feature. The individual pieces:
-  - server-plugin API (`init(router)`, `/api/plugins/<id>`): **1.11.1** (Dec 2023)
-  - `node plugins.js install <url>`: **1.12.0** (May 2024); on older versions copy
-    `server-plugin/` into `<ST>/plugins/` manually
-  - `setOnlineStatus` export: **1.13.0** (used only to bypass a "backend disconnected"
-    guard during reattach; the extension loads without it)
+- SillyTavern **1.19.0** — this is the only version tested so far (commit `7e8663cd9`).
+  Other versions are untested.
 - Write access to `<ST>/plugins/`, `<ST>/config.yaml` and the ST data directory.
 - Node.js as used by the ST instance.
-- Tested against SillyTavern 1.19.0 (commit `7e8663cd9`).
 
 ## Step 1 — locate the SillyTavern installation
 

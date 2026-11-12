@@ -119,15 +119,8 @@ after 24 hours.
 
 ## Requirements & limits
 
-| Requirement | Since |
-|---|---|
-| SillyTavern server-plugin API (`init(router)`, `/api/plugins/<id>`) | **1.11.1** (Dec 2023) |
-| `node plugins.js install <url>` shortcut for the server half | **1.12.0** (May 2024) — on older versions copy `server-plugin/` manually |
-| `setOnlineStatus` export (used to bypass a "backend disconnected" guard during reattach) | **1.13.0** — on older versions the extension still loads, but that one guard cannot be bypassed |
-
-Developed and tested against **SillyTavern 1.19.0** (commit `7e8663cd9`). The server-plugin
-API is nothing new — it has existed since December 2023; this extension just uses it well.
-
+- Tested on **SillyTavern 1.19.0** (commit `7e8663cd9`) only. Other versions are untested.
+- `enableServerPlugins: true` in `config.yaml` and a server restart.
 - **Prompt assembly still happens in the browser.** You can close the tab *after* sending
   the prompt, not before. Macros, lorebooks and presets are client-side code.
 - Multi-step tool-call loops need a live client between the steps.
